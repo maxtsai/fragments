@@ -9,7 +9,7 @@ void main(int argc, char **argv)
 {
 	FILE *fp;
 	char tmp[1024];
-	char tmp1[2048];
+	char tmp1[1024];
 	int blank_num = 0;
 	int SKIP = 10;
 	int total = 0;
@@ -29,25 +29,22 @@ void main(int argc, char **argv)
 		return;
 	}
 
-	printf("%s\n", argv[1]);
+	printf("%s\n\n", argv[1]);
 
 	while(fgets(tmp, 1024, fp) != NULL) {
-		memset(tmp1, 0, 2048);
+		memset(tmp1, 0, 1024);
+		memcpy(tmp1, tmp, 1024);
 		int i, j, k;
 		i = rand() % SKIP;
 		j = 1;
 
 		char *ptr = strtok(tmp, " ");
-		strcat(tmp1, ptr);
-		strcat(tmp1, " ");
 
 		while((ptr = strtok(NULL, " ")) != NULL) {
 
-			if ((strlen(ptr)<2) || 
+			if ((strlen(ptr)<5) || 
 				(ptr[0] < 0x41 || ptr[0] > 0x7a) ||
 				(ptr[1] < 0x61 && ptr[1] > 0x5a)) {
-				strcat(tmp1, ptr);
-				strcat(tmp1, " ");
 				continue;
 			}
 
@@ -55,22 +52,15 @@ void main(int argc, char **argv)
 
 			if (j == i) {
 				for (k = 0; k < strlen(ptr); k++) {
-					if (k < 5)
-						strcat(tmp1, "__");
-					else
-						strcat(tmp1, "_");
+					tmp1[ptr-tmp+k] = '_';
 				}
-				strcat(tmp1, " ");
 				for (k = 0; k < 10; k++) {
 					i = rand() % SKIP;
-					if (i > 3)
+					if (i > 2)
 						break;
 				}
 				j = 0;
 				blank_num++;
-			} else {
-				strcat(tmp1, ptr);
-				strcat(tmp1, " ");
 			}
 			j = (j+1) % SKIP;
 		}
