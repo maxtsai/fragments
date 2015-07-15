@@ -4,10 +4,8 @@
 #include <time.h>
 
 
-
 void main(int argc, char **argv)
 {
-
 	FILE *fp;
 	char tmp[1024];
 	char tmp1[1024];
